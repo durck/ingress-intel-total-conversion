@@ -965,10 +965,7 @@ public class IITC_Mobile extends AppCompatActivity
     }
 
     private void sendScreenshot(final IITC_Mobile iitc) {
-        Toast.makeText(this, "3…", Toast.LENGTH_SHORT).show();
-        new Handler().postDelayed(() -> Toast.makeText(iitc, "2…", Toast.LENGTH_SHORT).show(), 1000);
-        new Handler().postDelayed(() -> Toast.makeText(iitc, "1…", Toast.LENGTH_SHORT).show(), 2000);
-        new Handler().postDelayed(() -> Toast.makeText(iitc, R.string.msg_take_screenshot, Toast.LENGTH_SHORT).show(), 2900);
+        Toast.makeText(this, R.string.msg_prepare_screenshot, Toast.LENGTH_SHORT).show();
 
         // Hack for Android >= 5.0 Lollipop
         // When hardware acceleration is enabled, it is not possible to create a screenshot.
@@ -991,6 +988,7 @@ public class IITC_Mobile extends AppCompatActivity
             mIitcWebView.draw(bigcanvas);
 
             try {
+                Toast.makeText(iitc, R.string.msg_take_screenshot, Toast.LENGTH_SHORT).show();
                 final File cache = getExternalCacheDir();
                 final File file = File.createTempFile("IITC screenshot", ".png", cache);
                 if (!bitmap.compress(CompressFormat.PNG, 100, new FileOutputStream(file))) {
@@ -1007,7 +1005,7 @@ public class IITC_Mobile extends AppCompatActivity
                 Log.e("Could not generate screenshot", e);
             }
 
-        }, 3000);
+        }, 2000);
 
     }
 
