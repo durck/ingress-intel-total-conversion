@@ -682,7 +682,7 @@ public class IITC_Mobile extends AppCompatActivity
                 cm.removeAllCookie();
                 return true;
             case R.id.menu_send_screenshot:
-                sendScreenshot(this);
+                sendScreenshot();
                 return true;
             case R.id.menu_debug:
                 mDebugging = !mDebugging;
@@ -964,7 +964,7 @@ public class IITC_Mobile extends AppCompatActivity
         mPermalink = href;
     }
 
-    private void sendScreenshot(final IITC_Mobile iitc) {
+    private void sendScreenshot() {
         Toast.makeText(this, R.string.msg_prepare_screenshot, Toast.LENGTH_SHORT).show();
 
         // Hack for Android >= 5.0 Lollipop
@@ -988,14 +988,14 @@ public class IITC_Mobile extends AppCompatActivity
             mIitcWebView.draw(bigcanvas);
 
             try {
-                Toast.makeText(iitc, R.string.msg_take_screenshot, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.msg_take_screenshot, Toast.LENGTH_SHORT).show();
                 final File cache = getExternalCacheDir();
                 final File file = File.createTempFile("IITC screenshot", ".png", cache);
                 if (!bitmap.compress(CompressFormat.PNG, 100, new FileOutputStream(file))) {
                     // quality is ignored by PNG
                     throw new IOException("Could not compress bitmap!");
                 }
-                startActivityForResult(ShareActivity.forFile(iitc, file, "image/png"), (resultCode, data) -> {
+                startActivityForResult(ShareActivity.forFile(this, file, "image/png", getString(R.string.send_to)), (resultCode, data) -> {
                     mIitcWebView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
                     mIitcWebView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
 

@@ -30,12 +30,15 @@ public class ShareActivity extends FragmentActivity implements ActionBar.TabList
     private static final String TYPE_PORTAL_LINK = "portal_link";
     private static final String TYPE_STRING = "string";
 
-    public static Intent forFile(final Context context, final File file, final String type) {
-        return new Intent(context, ShareActivity.class)
-                .putExtra(EXTRA_TYPE, TYPE_FILE)
-                .putExtra("uri", FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider",file))
-                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                .putExtra("type", type);
+    public static Intent forFile(final Context context, final File file, final String type, final String title) {
+        Intent shareIntent = new Intent();
+
+        shareIntent.setAction(Intent.ACTION_SEND)
+            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            .putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file))
+            .setType(type);
+
+        return Intent.createChooser(shareIntent, title);
     }
 
     public static Intent forPosition(final Context context, final double lat, final double lng, final int zoom,
